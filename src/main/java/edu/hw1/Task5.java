@@ -5,19 +5,21 @@ public class Task5 {
     }
 
     public static boolean isPalindromeDescendant(int num) {
-        String strNum = String.valueOf(num);
-
-        if (checkIfStrIsPalindrome(strNum)) {
-            return true;
-        }
-        if (strNum.length() % 2 == 1) {
-            return false;
-        }
-
-        while (strNum.length() > 1) {
-            strNum = getDescendantOfStrNum(strNum);
+        if (num >= 0) {
+            String strNum = String.valueOf(num);
             if (checkIfStrIsPalindrome(strNum)) {
                 return true;
+            }
+
+            if (strNum.length() % 2 == 1) {
+                return false;
+            }
+
+            while (strNum.length() > 1) {
+                strNum = getDescendantOfStrNum(strNum);
+                if (checkIfStrIsPalindrome(strNum)) {
+                    return true;
+                }
             }
         }
 
