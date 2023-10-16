@@ -4,7 +4,8 @@ public class Task2 {
     private Task2() {
     }
 
-    @SuppressWarnings("MagicNumber")
+    private static final int RADIX = 10;
+
     public static int countDigits(int num) {
         if (num < 0) {
             return -1;
@@ -15,7 +16,7 @@ public class Task2 {
 
         int digits = 0;
         int numCopy = num;
-        for (; numCopy > 0; numCopy /= 10, digits++) {}
+        for (; numCopy > 0; numCopy /= RADIX, digits++) {}
 
         return digits;
     }

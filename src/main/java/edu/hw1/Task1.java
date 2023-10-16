@@ -4,7 +4,8 @@ public class Task1 {
     private Task1() {
     }
 
-    @SuppressWarnings("MagicNumber")
+    private static final int SEC_IN_MIN = 60;
+
     public static int minutesToSeconds(String time) {
         String[] units = time.split(":");
 
@@ -14,12 +15,12 @@ public class Task1 {
         int min = Integer.parseInt(units[0]);
         int sec = Integer.parseInt(units[1]);
 
-        correctTime &= (min >= 0) && (sec >= 0 && sec < 60);
+        correctTime &= (min >= 0) && (sec >= 0 && sec < SEC_IN_MIN);
         if (!correctTime) {
             return -1;
         }
 
-        return min * 60 + sec;
+        return min * SEC_IN_MIN + sec;
     }
 
     private static boolean isNumeric(String str) {
