@@ -21,14 +21,29 @@ public class Task8 {
         return true;
     }
 
-    @SuppressWarnings("MagicNumber")
+    private static final int[] KNIGHT_MOVE_UP_LEFT = {-1, 2};
+    private static final int[] KNIGHT_MOVE_UP_RIGHT = {1, 2};
+    private static final int[] KNIGHT_MOVE_DOWN_LEFT = {-1, -2};
+    private static final int[] KNIGHT_MOVE_DOWN_RIGHT = {1, -2};
+    private static final int[] KNIGHT_MOVE_LEFT_UP = {-2, 1};
+    private static final int[] KNIGHT_MOVE_LEFT_DOWN = {-2, -1};
+    private static final int[] KNIGHT_MOVE_RIGHT_UP = {2, 1};
+    private static final int[] KNIGHT_MOVE_RIGHT_DOWN = {2, -1};
+
     private static boolean isAttackedByKnight(int x, int y, int[][] board) {
         // check all possible moves of the knight
-        int[] dx = {-2, -2, -1, -1, 1, 1, 2, 2};
-        int[] dy = {-1, 1, -2, 2, -2, 2, -1, 1};
+        final int[][] KNIGHT_MOVES = {KNIGHT_MOVE_UP_LEFT,
+                                    KNIGHT_MOVE_UP_RIGHT,
+                                    KNIGHT_MOVE_DOWN_LEFT,
+                                    KNIGHT_MOVE_DOWN_RIGHT,
+                                    KNIGHT_MOVE_LEFT_UP,
+                                    KNIGHT_MOVE_LEFT_DOWN,
+                                    KNIGHT_MOVE_RIGHT_UP,
+                                    KNIGHT_MOVE_RIGHT_DOWN};
+
         for (int i = 0; i < CHESS_BOARD_SIZE; i++) {
-            int nx = x + dx[i];
-            int ny = y + dy[i];
+            int nx = x + KNIGHT_MOVES[i][0];
+            int ny = y + KNIGHT_MOVES[i][1];
 
             if (nx >= 0 && nx < CHESS_BOARD_SIZE && ny >= 0 && ny < CHESS_BOARD_SIZE) {
                 // check if the square is occupied by other knight
