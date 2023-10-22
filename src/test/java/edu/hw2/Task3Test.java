@@ -13,11 +13,11 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 
 @ExtendWith(MockitoExtension.class)
 public class Task3Test {
-    @Spy
-    Random mockRandom = new Random();
-
     private final static double IS_ERROR = 1;
     private final static double IS_NO_ERROR = 0;
+
+    @Spy
+    Random mockRandom = new Random();
 
     @Test
     public void checkFaultyConnection() {
@@ -64,10 +64,16 @@ public class Task3Test {
         assertThat(actual).isInstanceOf(FaultyConnection.class);
     }
 
+    @Spy
+    FaultyConnectionManager mockFaultyConnectionManager = new FaultyConnectionManager();
+
     @Test
     public void checkPopularCommandExecutor() {
+        Mockito.doReturn(IS_ERROR).when(mockRandom).nextDouble();
+        Mockito.doReturn(new FaultyConnection(mockRandom)).when(mockFaultyConnectionManager).getConnection();
+
         assertThatThrownBy(() -> {
-            PopularCommandExecutor exec = new PopularCommandExecutor(new FaultyConnectionManager(), 2);
+            PopularCommandExecutor exec = new PopularCommandExecutor(mockFaultyConnectionManager, 2);
             exec.tryExecute("command");
         }).isInstanceOf(ConnectionException.class)
             .hasMessageContaining("The maximum number of attempts to execute a command has been exceeded");
