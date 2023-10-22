@@ -7,11 +7,11 @@ public class FaultyConnection implements Connection {
     private final Random random;
 
     public FaultyConnection() {
-        this(0L);
+        this(new Random());
     }
 
-    public FaultyConnection(long seed) {
-        random = new Random(seed);
+    public FaultyConnection(Random aRandom) {
+        random = aRandom;
     }
 
     private boolean isError() {

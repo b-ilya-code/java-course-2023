@@ -7,11 +7,11 @@ public class DefaultConnectionManager implements ConnectionManager {
     private final Random random;
 
     public DefaultConnectionManager() {
-        this(0L);
+        this(new Random());
     }
 
-    public DefaultConnectionManager(long seed) {
-        random = new Random(seed);
+    public DefaultConnectionManager(Random aRandom) {
+        random = aRandom;
     }
 
     private boolean isError() {

@@ -5,7 +5,6 @@ public class Square extends Rectangle {
     }
 
     public Square(int aSide) {
-        super.setWidth(aSide);
-        super.setHeight(aSide);
+        super(aSide, aSide);
     }
 }
