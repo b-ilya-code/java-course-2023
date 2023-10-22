@@ -13,9 +13,6 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 
 @ExtendWith(MockitoExtension.class)
 public class Task3Test {
-//    @Spy
-//    FaultyConnection mockFaultyConnection = new FaultyConnection();
-
     @Spy
     Random mockRandom = new Random();
 
