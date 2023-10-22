@@ -1,8 +1,8 @@
 package edu.hw2.task2;
 
 public class Rectangle {
-    final private int width;
-    final private int height;
+    final protected int width;
+    final protected int height;
 
     public Rectangle() {
         this(0, 0);
