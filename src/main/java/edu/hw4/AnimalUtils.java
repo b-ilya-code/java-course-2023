@@ -1,9 +1,7 @@
 package edu.hw4;
 
-import edu.hw4.errors.ValidationError;
-import java.util.AbstractMap;
-import java.util.Arrays;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -21,11 +19,11 @@ public class AnimalUtils {
             .toList();
     }
 
-    public static List<Animal> sortByWeightDesc(List<Animal> animals, int k) {
+    public static List<Animal> sortByWeightDesc(List<Animal> animals, int limit) {
 
         return animals.stream()
             .sorted(Comparator.comparingInt(Animal::weight).reversed())
-            .limit(k)
+            .limit(limit)
             .toList();
     }
 
@@ -41,13 +39,19 @@ public class AnimalUtils {
     }
 
     public static Animal.Sex largestSex(List<Animal> animals) {
-        return animals.stream()
-            .collect(groupingBy(Animal::sex, Collectors.counting()))
-            .entrySet()
-            .stream()
-            .max(Map.Entry.<Animal.Sex, Long>comparingByValue())
-            .orElseThrow()
-            .getKey();
+        Map<Animal.Sex, Long> genderCounts = animals.stream()
+            .collect(Collectors.groupingBy(Animal::sex, Collectors.counting()));
+
+        long maleCount = genderCounts.getOrDefault(Animal.Sex.M, 0L);
+        long femaleCount = genderCounts.getOrDefault(Animal.Sex.F, 0L);
+
+        if (maleCount > femaleCount) {
+            return Animal.Sex.M;
+        } else if (femaleCount > maleCount) {
+            return Animal.Sex.F;
+        } else {
+            return null;
+        }
     }
 
     public static Map<Animal.Type, Animal> heaviestAnimalPerType(List<Animal> animals) {
@@ -66,10 +70,10 @@ public class AnimalUtils {
             .sorted(Comparator.comparingInt(Animal::age).reversed())
             .skip(k - 1)
             .findFirst()
-            .orElseThrow();
+            .orElse(null);
     }
 
-    public static Optional<Animal> heaviestAnimalAmongThoseSmallerThanK(List<Animal> animals, int maxHeight) {
+    public static Optional<Animal> heaviestAnimalAmongThoseSmallerThanMaxHeight(List<Animal> animals, int maxHeight) {
         return animals.stream()
             .filter(animal -> (animal.height() < maxHeight))
             .max(Comparator.comparingInt(Animal::weight));
@@ -106,23 +110,24 @@ public class AnimalUtils {
             .toList();
     }
 
-    public static Boolean containsDogBiggerThanK(List<Animal> animals, int k) {
+    public static Boolean containsDogBiggerThanMaxHeight(List<Animal> animals, int maxHeight) {
         return animals.stream()
-            .anyMatch(animal -> animal.type() == Animal.Type.DOG && animal.height() > k);
+            .anyMatch(animal -> animal.type() == Animal.Type.DOG && animal.height() > maxHeight);
     }
 
-    public static Map<Animal.Type, Integer> totalWeightOfCertainAgeRangePerType(List<Animal> animals, int k, int l) {
-        return Arrays.stream(Animal.Type.values())
-            .map(type ->
-                new AbstractMap.SimpleEntry<>(
-                    type,
-                    animals.stream()
-                        .filter(animal -> animal.type() == type)
-                        .filter(animal -> animal.age() >= k && animal.age() < l)
-                        .map(Animal::weight)
-                        .reduce(0, Integer::sum)
-                ))
-            .collect(Collectors.toMap(AbstractMap.SimpleEntry::getKey, AbstractMap.SimpleEntry::getValue));
+    public static Map<Animal.Type, Integer> totalWeightOfCertainAgeRangePerType(
+        List<Animal> animals,
+        int minAge,
+        int maxAge
+    ) {
+        Map<Animal.Type, Integer> result = animals.stream()
+            .filter(animal -> animal.age() >= minAge && animal.age() <= maxAge)
+            .collect(Collectors.groupingBy(Animal::type, Collectors.summingInt(Animal::weight)));
+
+        for (Animal.Type value : Animal.Type.values()) {
+            result.putIfAbsent(value, 0);
+        }
+        return result;
     }
 
     public static List<Animal> sortedByTypeSexName(List<Animal> animals) {
@@ -162,14 +167,17 @@ public class AnimalUtils {
     }
 
     public static Map<String, String> readableAnimalsEntriesWithMistakes(List<Animal> animals) {
-        Map<String, List<ValidationError>> errors = animalsEntriesWithMistakes(animals);
+        Map<String, List<ValidationError>> entries = animalsEntriesWithMistakes(animals);
+        Map<String, String> result = new HashMap<>();
+        entries.forEach(
+            (name, errorSet) ->
+                result.put(
+                    name,
+                    errorSet.stream()
+                        .map(ValidationError::toString)
+                        .collect(Collectors.joining(", "))
+                ));
 
-        return errors.entrySet().stream()
-            .collect(Collectors.toMap(
-                Map.Entry::getKey,
-                entry -> entry.getValue().stream()
-                    .map(Throwable::getMessage)
-                    .collect(Collectors.joining(", "))
-            ));
+        return result;
     }
 }

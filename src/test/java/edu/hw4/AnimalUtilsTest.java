@@ -95,6 +95,14 @@ public class AnimalUtilsTest {
         assertThat(AnimalUtils.largestSex(animals)).isEqualTo(M);
     }
 
+    @Test
+    public void largestSexAmongEqualSexesTest() {
+        assertThat(AnimalUtils.largestSex(List.of(
+            new Animal("Cat1", CAT, F, 105, 130, 40_000, true),
+            new Animal("Dog1", DOG, M, 2, 98, 20_000, true)
+        ))).isEqualTo(null);
+    }
+
     @ParameterizedTest
     @ArgumentsSource(AnimalsArgumentsProvider.class)
     public void heaviestAnimalPerTypeTest(List<Animal> animals) {
@@ -118,6 +126,15 @@ public class AnimalUtilsTest {
         assertThat(AnimalUtils.kthOldestAnimal(animals, k)).isEqualTo(expectedOutput);
     }
 
+    @Test
+    public void kthOldestAnimalWithAnimalLessThanKTest() {
+        int k = 10;
+
+        assertThat(AnimalUtils.kthOldestAnimal((List.of(
+            new Animal("Cat1", CAT, F, 105, 130, 40_000, true)
+        )), k)).isEqualTo(null);
+    }
+
     @ParameterizedTest
     @ArgumentsSource(AnimalsArgumentsProvider.class)
     public void heaviestAnimalAmongThoseSmallerThanKTest(List<Animal> animals) {
@@ -125,7 +142,7 @@ public class AnimalUtilsTest {
         Optional<Animal> expectedOutput =
             Optional.of(new Animal("Spider1", SPIDER, M, 20, 7, 100, true));
 
-        assertThat(AnimalUtils.heaviestAnimalAmongThoseSmallerThanK(animals, k)).isEqualTo(expectedOutput);
+        assertThat(AnimalUtils.heaviestAnimalAmongThoseSmallerThanMaxHeight(animals, k)).isEqualTo(expectedOutput);
     }
 
     @ParameterizedTest
@@ -186,7 +203,7 @@ public class AnimalUtilsTest {
         int k = 90;
         var expectedOutput = true;
 
-        assertThat(AnimalUtils.containsDogBiggerThanK(animals, k)).isEqualTo(expectedOutput);
+        assertThat(AnimalUtils.containsDogBiggerThanMaxHeight(animals, k)).isEqualTo(expectedOutput);
     }
 
     @ParameterizedTest
@@ -246,7 +263,7 @@ public class AnimalUtilsTest {
         List<Animal> animals = List.of(new Animal("", SPIDER, M, -2, 14, 120, true));
 
         var expectedOutput = Map.of(
-            "", "Invalid name, Invalid age"
+            "", "Animal's name is empty, Animal's age is negative"
         );
 
         assertThat(AnimalUtils.readableAnimalsEntriesWithMistakes(animals)).isEqualTo(expectedOutput);
