@@ -27,10 +27,13 @@ public class Task2Test {
 
     @Test
     void checkSquare() {
-        Square square = new Square(10);
+        Square square = new Square(10); // square with sides 10 and 10
         assertThat(square.area()).isEqualTo(100.0);
 
-        Rectangle rect = square.setWidth(20);
+        Rectangle rect = square.setWidth(20); // rectangle with sides 20 and 10
         assertThat(rect.area()).isEqualTo(200.0);
+
+        Square square2 = square.setSide(20); // square with sides 20 and 20
+        assertThat(square2.area()).isEqualTo(400.0);
     }
 }

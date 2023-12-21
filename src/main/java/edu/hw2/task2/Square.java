@@ -4,7 +4,11 @@ public class Square extends Rectangle {
     public Square() {
     }
 
-    public Square(int aSide) {
-        super(aSide, aSide);
+    public Square(int side) {
+        super(side, side);
+    }
+
+    public Square setSide(int side) {
+        return new Square(side);
     }
 }
