@@ -56,8 +56,9 @@ public class DiskMap implements Map<String, String> {
     @Override
     public String put(String key, String value) {
         if (buffMap.containsKey(key)) {
-            return buffMap.put(key, value);
+            remove(key);
         }
+
         try {
             addToFile(key, value);
         } catch (IOException e) {

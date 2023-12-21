@@ -1,28 +1,18 @@
 package edu.hw6;
 
 import org.junit.jupiter.api.Test;
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
-import java.util.Arrays;
 import java.util.List;
-import java.util.zip.ZipInputStream;
 
 import static edu.hw6.Task3.AbstractFilter.READABLE;
 import static edu.hw6.Task3.AbstractFilter.REGULAR_FILE;
-import static edu.hw6.Task3.AbstractFilter.globMatches;
-import static edu.hw6.Task3.AbstractFilter.largerThan;
-import static edu.hw6.Task3.AbstractFilter.magicNumber;
-
-import static edu.hw6.Task3.AbstractFilter.regexContains;
+import static edu.hw6.Task3.DirectoryStreamFilterCollection.*;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class Task3Test {
     @Test

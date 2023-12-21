@@ -14,21 +14,24 @@ public final class Task2 {
             throw new NullPointerException();
         }
         String fileName = path.getFileName().toString();
-        var ext = getExt(fileName);
-        int copyNumber = 0;
-        String copyFileName = fileName.replaceAll(ext, "");
 
-        while (Files.exists(path.resolveSibling(copyFileName))) {
-            copyNumber++;
-            copyFileName = fileName + " — копия";
-            if (copyNumber == 1) {
-                copyFileName = copyFileName + ext;
-                continue;
+        if (Files.exists(path.resolveSibling(fileName))) {
+            String copyFileName = fileName;
+            var ext = getExt(fileName);
+            int copyNumber = 0;
+
+            while (Files.exists(path.resolveSibling(copyFileName))) {
+                copyNumber++;
+                copyFileName = fileName + " — копия";
+                if (copyNumber == 1) {
+                    copyFileName = copyFileName + ext;
+                } else {
+                    copyFileName = copyFileName + " (" + copyNumber + ")" + ext;
+                }
             }
-            copyFileName = copyFileName + (copyNumber > 1 ? " (" + copyNumber + ")" : "") + ext;
+            Path copyPath = path.resolveSibling(copyFileName);
+            Files.copy(path, copyPath);
         }
-        Path copyPath = path.resolveSibling(copyFileName);
-        Files.copy(path, copyPath);
     }
 
     private static String getExt(String file) {

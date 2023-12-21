@@ -14,7 +14,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 public final class Task4 {
-    private final static String OUTPUT = "Programming is learned by writing programs. ― Brian Kernighan";
+    public final static String OUTPUT = "Programming is learned by writing programs. ― Brian Kernighan";
 
     private Task4() {
 

@@ -10,8 +10,9 @@ import java.util.regex.Pattern;
 import org.apache.logging.log4j.util.Strings;
 
 public final class HackerNews {
-    private static final String STORIES_URL = "https://hacker-news.firebaseio.com/v0/topstories.json";
-    private static final String ID_URL = "https://hacker-news.firebaseio.com/v0/item/";
+    private static final String URL = "https://hacker-news.firebaseio.com/v0/";
+    private static final String STORIES_URL = URL + "topstories.json";
+    private static final String ID_URL = URL + "item/";
 
     private HackerNews() {
 
