@@ -47,6 +47,10 @@
 
         <bytebuddy.version>1.14.8</bytebuddy.version>
         <asm.version>9.6</asm.version>
+
+        <jmh.version>1.37</jmh.version>
+        <lombok.version>1.18.30</lombok.version>
+
     </properties>
 
     <dependencyManagement>
@@ -88,10 +92,29 @@
             <artifactId>byte-buddy-agent</artifactId>
             <version>${bytebuddy.version}</version>
         </dependency>
+      
         <dependency>
             <groupId>net.bytebuddy</groupId>
             <artifactId>byte-buddy</artifactId>
             <version>${bytebuddy.version}</version>
+
+            <groupId>org.openjdk.jmh</groupId>
+            <artifactId>jmh-core</artifactId>
+            <version>${jmh.version}</version>
+        </dependency>
+      
+        <dependency>
+            <groupId>org.openjdk.jmh</groupId>
+            <artifactId>jmh-generator-annprocess</artifactId>
+            <version>${jmh.version}</version>
+            <scope>provided</scope>
+        </dependency>
+      
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>${lombok.version}</version>
+            <scope>provided</scope>
         </dependency>
 
         <!-- Logging -->
